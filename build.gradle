@@ -1,0 +1,39 @@
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+ext.gradleScriptDir = file('gradle')
+
+ext {
+    junitVersion = '4.12'
+    apacheCommonsVersion = '3.8.1'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    tasks.withType(FindBugs) {
+        reports {
+            xml.enabled=false
+            html.enabled=true
+        }
+    }
+
+}
+
+project("algorithmic_tooling") {
+    description = "Algorithmic Tooling"
+
+    dependencies {
+        testCompile "junit:junit:$junitVersion"
+        testCompile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
+    }
+
+}
