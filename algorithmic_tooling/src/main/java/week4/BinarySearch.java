@@ -41,9 +41,11 @@ public class BinarySearch {
         for (int i = 0; i < m; i++) {
           b[i] = scanner.nextInt();
         }
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < m; i++) {
-            System.out.print(binarySearch(a, b[i]) + " ");
+            sb.append(binarySearch(a, b[i])).append(" ");
         }
+        System.out.print(sb.toString());
     }
     static class FastScanner {
         BufferedReader br;
