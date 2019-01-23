@@ -19,9 +19,8 @@ public class Inversions {
     private static long merge(int[] a, int[] aux, int low, int midpoint, int high) {
         long inversions = 0;
 
-        for (int k = low; k <= high; k++) {
-            aux[k] = a[k];
-        }
+        System.arraycopy(a, low, aux, low, high + 1 - low);
+
         int i = low;
         int j = midpoint + 1;
         for (int k = low; k <= high; k++) {
