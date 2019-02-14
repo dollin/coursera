@@ -1,0 +1,189 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+title SharingApp UML Class Diagram
+
+class ItemAdapter
+
+class SectionsPagerAdapter {
+    Fragment +getItem(int position)
+    +getCount() : int
+    CharSequence +getPageTitle(int position)
+}
+
+class EditItemActivity {
+    -item : Item;
+    -item_list : ItemList
+    -context : Context
+    -title : EditText
+    -maker : EditText
+    -description : EditText
+    -length : EditText
+    -width : EditText
+    -height : EditText
+    -borrower : EditText
+    -borrower_tv : TextView
+    -status : Switch
+    -photo : ImageView
+    -image : Bitmap
+    -REQUEST_CODE : int
+
+    #onCreate(Bundle savedInstanceState)
+    +addPhoto(View view)
+    +deletePhoto(View view)
+    #onActivityResult(int request_code, int result_code, Intent intent)
+    +deleteItem(View view)
+    +saveItem(View view)
+    +toggleSwitch(View view)
+}
+
+class AddItemActivity {
+    -title : EditText
+    -maker : EditText
+    -description : EditText
+    -length : EditText
+    -width : EditText
+    -height : EditText
+    -photo : ImageView
+    -image : Bitmap
+    -REQUEST_CODE : int
+    -item_list : ItemList
+    -context : Context
+
+    #onCreate(Bundle savedInstanceState)
+    #onActivityResult(int request_code, int result_code, Intent intent)
+    +saveItem (View view)
+    +addPhoto(View view)
+    +deletePhoto(View view)
+}
+
+class ItemList {
+    {static} -items : ArrayList<Item>
+    -FILENAME : String
+
+    +setItems(ArrayList<Item> item_list)
+    ArrayList<Item> +getItems()
+    Item +getItem()
+    +addItem(Item item)
+    +deleteItem(Item item)
+    Item +getItem(int index)
+    int +getIndex(Item item)
+    int +getSize()
+    +loadItems(Context context)
+    +saveItems(Context context)
+    ArrayList<Item> +filterItemsByStatus(String status)
+}
+
+class Item {
+    -title : String
+    -maker : String
+    -description : String
+    -dimensions : Dimensions
+    -status : String
+    -borrower : String
+    #image : Bitmap
+    #image_base64 : String
+    -id : String
+
+    String +getId()
+    +setId()
+    +updateId(String id)
+    +setTitle(String title)
+    String +getTitle()
+    +setMaker(String maker)
+    String +getMaker()
+    +setDescription(String description)
+    String +getDescription()
+    +setDimensions(Dimensions dimensions)
+    Dimensions +getDimensions()
+    +setStatus(String status)
+    String +getStatus()
+    +setBorrower(String borrower)
+    String +getBorrower()
+    +addImage(Bitmap new_image)
+    Bitmap +getImage()
+}
+
+class Dimensions {
+    -length : String
+    -width : String
+    -height : String
+    String +getLength()
+    String +getWidth()
+    String +getHeight()
+    String +getDimensions()
+    +setDimensions(String length, String width, String height)
+}
+
+class MainActivity {
+    #onCreate(Bundle savedInstanceState)
+    +addItemActivity(View view)
+}
+
+abstract class ItemsFragment {
+    ~item_list : ItemList
+    #rootView : View
+    -list_view : ListView
+    -adapter : ArrayAdapter<Item>
+    -selected_items : ArrayList<Item>
+    -inflater : LayoutInflater
+    -container : ViewGroup
+    -context : Context
+
+    View +onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    +setVariables(int resource, int id )
+    +setAdapter(Fragment fragment)
+    {abstract} ArrayList<Item> +filterItems()
+
+}
+
+class AllItemsFragment {
+    View +onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    ArrayList<Item> +filterItems()
+}
+
+class BorrowedItemsFragment {
+    View +onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    ArrayList<Item> +filterItems()
+}
+
+class AvailableItemsFragment {
+    View +onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    ArrayList<Item> +filterItems()
+}
+
+class ItemAdapter {
+    -inflater : LayoutInflater
+    -fragment : Fragment
+    -context : Context
+    View +getView(int position, View convertView, ViewGroup parent)
+}
+
+class ArrayAdapter<Item>
+class Fragment
+
+class AppCompatActivity
+class FragmentPagerAdapter
+
+FragmentPagerAdapter <|-- SectionsPagerAdapter
+AppCompatActivity <|-- AddItemActivity
+AppCompatActivity <|-- EditItemActivity
+AppCompatActivity <|-- MainActivity
+AddItemActivity *-- ItemList
+EditItemActivity *-- ItemList
+ItemList "0" *-- "*" Item
+Item -- Dimensions
+Fragment <|-- ItemsFragment
+
+ItemsFragment *-- ItemList
+ItemsFragment  o-- Item
+ItemsFragment <|-- AllItemsFragment
+ItemsFragment <|-- AvailableItemsFragment
+ItemsFragment <|-- BorrowedItemsFragment
+ArrayAdapter <|-- ItemAdapter
+Fragment -- ItemAdapter
+SectionsPagerAdapter -- "0..1" AllItemsFragment
+SectionsPagerAdapter -- "0..1" AvailableItemsFragment
+SectionsPagerAdapter -- "0..1" BorrowedItemsFragment
+@enduml
+

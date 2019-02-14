@@ -1,0 +1,49 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+class Airport {
+    +uniqueID : int
+}
+
+class Flight {
+    +flightID : String
+    +departureLocation : String
+    +arrivalLocation : String
+}
+
+class Ticket {
+    +ticketNumber : long
+    +seatNUmber : int
+}
+
+class Pilot {
+    +pilotsLicence
+}
+
+class Staff {
+    +employeeNumber : long
+}
+
+class Person {
+    +fullname : String
+    +idNumber : long
+}
+
+class Customer {
+    +bookFlight(flightID)
+}
+
+Airport "1" -- "*" Airline
+Airline o-- "*" Plane
+Airline o-- "*" Pilot
+Pilot --|> Person
+Airline o-- "*" Staff
+Staff --|> Person
+Pilot "1..2" -- "0..*" Flight
+Staff "0..*" -- "0..*" Flight
+
+Plane "1..*" o-- "0..*" Flight
+Flight "1" -- "1..*" Ticket
+Ticket -- Customer
+Customer --|> Person
+@enduml

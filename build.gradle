@@ -8,6 +8,8 @@ ext.gradleScriptDir = file('gradle')
 ext {
     junitVersion = '4.12'
     apacheCommonsVersion = '3.8.1'
+    sparkVersion = '2.4.0'
+    twitter4jVersion = '3.0.3'
 }
 
 subprojects {
@@ -25,13 +27,25 @@ subprojects {
             html.enabled=true
         }
     }
-
 }
 
 project("algorithmic_tooling") {
     description = "Algorithmic Tooling"
 
     dependencies {
+        testCompile "junit:junit:$junitVersion"
+        testCompile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
+    }
+
+}
+
+project("big_data") {
+    description = "Big Data"
+
+    dependencies {
+        compile "org.apache.spark:spark-core_2.12:$sparkVersion"
+        compile "org.apache.spark:spark-sql_2.12:$sparkVersion"
+        compile "org.apache.spark:spark-streaming_2.12:$sparkVersion"
         testCompile "junit:junit:$junitVersion"
         testCompile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
     }
